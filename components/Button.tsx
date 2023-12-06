@@ -1,12 +1,10 @@
-import React from 'react';
-
 interface ButtonProps {
   classStyles: string;
   btnName: string;
   handleClick: () => void;
 }
 
-const Button: React.FC<ButtonProps> = ({ classStyles, btnName, handleClick }) => {
+const Button = ({ classStyles, btnName, handleClick }: ButtonProps) => {
   return (
     <button
       type="button"
