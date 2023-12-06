@@ -1,4 +1,10 @@
-const Banner = ({ name, childStyles, parentStyles }) => {
+interface BannerProps {
+  name: string;
+  childStyles: string;
+  parentStyles: string;
+}
+
+const Banner = ({ name, childStyles, parentStyles }: BannerProps) => {
   return (
     <div
       className={`nft-gradient relative z-0 flex w-full items-center overflow-hidden ${parentStyles}`}
