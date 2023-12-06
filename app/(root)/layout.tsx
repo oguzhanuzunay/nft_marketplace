@@ -1,11 +1,12 @@
+import { Footer, Navbar } from '@/components';
 import React from 'react';
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <main className="min-h-screen bg-white dark:bg-nft-dark">
-      <h1>Root</h1>
+      <Navbar />
       {children}
-      <h1>Footer</h1>
+      <Footer />
     </main>
   );
 }
