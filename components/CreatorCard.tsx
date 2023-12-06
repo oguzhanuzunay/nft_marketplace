@@ -10,7 +10,7 @@ interface CreatorCardProps {
 
 const CreatorCard = ({ creatorName, rank, creatorImage, creatorEth }: CreatorCardProps) => {
   return (
-    <div className="m-4 flex min-w-190 flex-col rounded-3xl border-nft-gray-1 bg-white p-4 dark:border-nft-black-1 dark:bg-nft-black-3 minlg:min-w-240">
+    <div className="m-4 flex min-w-190 flex-col rounded-3xl border border-nft-gray-1 bg-white p-4 dark:border-nft-black-1 dark:bg-nft-black-3 minlg:min-w-240">
       <div className="flexCenter h-8 w-8 rounded-full bg-nft-red-violet minlg:h-10 minlg:w-10">
         <p className="font-poppins text-base font-semibold text-white minlg:text-lg">{rank}</p>
       </div>
