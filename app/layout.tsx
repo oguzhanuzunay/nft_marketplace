@@ -1,14 +1,10 @@
-import { ThemeProvider } from '@/context/ThemeProvider';
+import { ThemeProvider } from '@/contexts/ThemeProvider';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import React from 'react';
 import './globals.css';
 
-const inter = Inter({
-  subsets: ['latin'],
-  weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
-  variable: '--font-inter',
-});
+const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
   title: 'NFT MarketPlace',

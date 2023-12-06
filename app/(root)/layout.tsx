@@ -1,7 +1,11 @@
 import React from 'react';
 
-const Layout = ({ children }: { children: React.ReactDOM }) => {
-  return <main>Layout</main>;
-};
-
-export default Layout;
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <main className="min-h-screen bg-white dark:bg-nft-dark">
+      <h1>Root</h1>
+      {children}
+      <h1>Footer</h1>
+    </main>
+  );
+}
