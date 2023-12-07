@@ -14,12 +14,12 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     const handleThemeChange = () => {
-      if (theme === 'dark') {
-        setTheme('dark');
-        document.documentElement.classList.add('dark');
-      } else {
+      if (theme === 'light') {
         setTheme('light');
         document.documentElement.classList.remove('dark');
+      } else {
+        setTheme('dark');
+        document.documentElement.classList.add('dark');
       }
     };
 

@@ -133,8 +133,8 @@ const Navbar = () => {
             htmlFor="checkbox"
             className="flexBetween label relative h-4 w-8 rounded-2xl bg-black p-1"
           >
-            <i className="fas fa-moon"></i>
             <i className="fas fa-sun"></i>
+            <i className="fas fa-moon"></i>
             <div className="ball absolute h-3 w-3 rounded-full bg-white "></div>
           </label>
         </div>
