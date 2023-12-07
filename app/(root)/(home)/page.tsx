@@ -1,6 +1,6 @@
 'use client';
 import images from '@/assets';
-import { Banner, CreatorCard } from '@/components';
+import { Banner, CreatorCard, NFTCard } from '@/components';
 import { useTheme } from '@/contexts/ThemeProvider';
 import { makeId } from '@/utils/makeId';
 import Image from 'next/image';
@@ -13,7 +13,7 @@ const Home = () => {
   const scrollRef = useRef(null);
 
   const handleScroll = (direction: string) => {
-    const { current } : any = scrollRef;
+    const { current }: any = scrollRef;
     const scrollAmount = window.innerWidth > 1800 ? 270 : 210;
 
     if (direction === 'left') {
@@ -99,6 +99,29 @@ const Home = () => {
                   </div>
                 </>
               )}
+            </div>
+          </div>
+          <div className="mt-10">
+            <div className="flexBetween mx-4 sm:flex-col sm:items-start xs:mx-0 minlg:mx-8">
+              <h1 className="ml-4 font-poppins text-2xl font-semibold text-nft-black-1 dark:text-white  sm:mb-4 minlg:text-4xl">
+                Hot Bids
+              </h1>
+              <div>SearchBar</div>
+            </div>
+            <div className="mt-3 flex w-full flex-wrap justify-start md:justify-center xs:justify-around ">
+              {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((index) => (
+                <NFTCard
+                  key={`nft-${index}`}
+                  nft={{
+                    index,
+                    name: `Nifty NFT ${index}`,
+                    seller: `0x${makeId(3)}...${makeId(4)}`,
+                    owner: `0x${makeId(3)}...${makeId(4)}`,
+                    price: 10 - index * 0.5,
+                    description: 'Cool NFT on sale',
+                  }}
+                />
+              ))}
             </div>
           </div>
         </div>
