@@ -4,6 +4,7 @@ import { Inter } from 'next/font/google';
 import Script from 'next/script';
 import React from 'react';
 import './globals.css';
+import { NFTProvider} from '@/contexts/NFTContext';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -17,6 +18,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <body className={inter.className}>
+        <NFTProvider>
+
         <ThemeProvider>
           <Script
             src="https://kit.fontawesome.com/b4cf947109.js"
@@ -24,6 +27,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           />
           {children}
         </ThemeProvider>
+        </NFTProvider>
       </body>
     </html>
   );
