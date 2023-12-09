@@ -10,9 +10,12 @@ interface CreatorCardProps {
   creatorImage: any;
   creatorEth: number;
 }
+type NFTContextType = {
+  nftCurrency: string;
+};
 
 const CreatorCard = ({ creatorName, rank, creatorImage, creatorEth }: CreatorCardProps) => {
-  const { nftCurrency } = useContext(NFTContext);
+  const { nftCurrency } = useContext(NFTContext) as NFTContextType;
 
   return (
     <div className="m-4 flex min-w-190 flex-col rounded-3xl border border-nft-gray-1 bg-white p-4 dark:border-nft-black-1 dark:bg-nft-black-3 minlg:min-w-240">

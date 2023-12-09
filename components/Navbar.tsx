@@ -6,8 +6,9 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 import images from '@/assets';
+import { NFTContext } from '@/contexts/NFTContext';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { Button } from './';
 
 interface menuItemProps {
@@ -19,6 +20,11 @@ interface menuItemProps {
 interface ButtonGroupProps {
   setActive: any;
   router: any;
+}
+
+interface NFTContextType {
+  currentAccount: string;
+  connectWallet: () => void;
 }
 
 const MenuItems = ({ isMobile, active, setActive }: menuItemProps) => {
@@ -57,9 +63,9 @@ const MenuItems = ({ isMobile, active, setActive }: menuItemProps) => {
 };
 
 const ButtonGroup = ({ setActive, router }: ButtonGroupProps) => {
-  const hasConnected = true;
+  const { connectWallet, currentAccount } = useContext(NFTContext) as NFTContextType ;
 
-  return hasConnected ? (
+  return currentAccount ? (
     <Button
       btnName="Create"
       classStyles="mx-2 rounded-xl"
@@ -73,7 +79,7 @@ const ButtonGroup = ({ setActive, router }: ButtonGroupProps) => {
     <Button
       btnName="Connect"
       classStyles="mx-2 rounded-xl"
-      handleClick={() => {}}
+      handleClick={connectWallet}
     />
   );
 };
