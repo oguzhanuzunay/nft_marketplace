@@ -1,8 +1,8 @@
 import images from '@/assets';
+import { NFTContext } from '@/contexts/NFTContext';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useContext } from 'react';
-import { NFTContext } from '@/contexts/NFTContext';
 
 interface NFTCardProps {
   nft: {

@@ -2,8 +2,8 @@
 import { useTheme } from '@/contexts/ThemeProvider';
 
 import images from '@/assets';
-import Image from 'next/image';
 import Button from './Button';
+import Image from 'next/image';
 
 interface FooterLinksProps {
   heading: string;
