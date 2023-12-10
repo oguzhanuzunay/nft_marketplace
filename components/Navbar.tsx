@@ -1,15 +1,14 @@
 /* eslint-disable tailwindcss/no-custom-classname */
 'use client';
-import { useTheme } from '@/contexts/ThemeProvider';
-
-import Link from 'next/link';
-
 import images from '@/assets';
+import { useWeb3Modal } from '@web3modal/ethers/react';
 import { NFTContext } from '@/contexts/NFTContext';
+import { useTheme } from '@/contexts/ThemeProvider';
+import Image from 'next/image';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useContext, useState } from 'react';
 import { Button } from './';
-import Image from 'next/image';
 
 interface menuItemProps {
   isMobile?: boolean;
@@ -64,6 +63,7 @@ const MenuItems = ({ isMobile, active, setActive }: menuItemProps) => {
 
 const ButtonGroup = ({ setActive, router }: ButtonGroupProps) => {
   const { connectWallet, currentAccount } = useContext(NFTContext) as NFTContextType;
+  const { open } = useWeb3Modal();
 
   return currentAccount ? (
     <Button
@@ -79,7 +79,7 @@ const ButtonGroup = ({ setActive, router }: ButtonGroupProps) => {
     <Button
       btnName="Connect"
       classStyles="mx-2 rounded-xl"
-      handleClick={connectWallet}
+      handleClick={() => open()}
     />
   );
 };

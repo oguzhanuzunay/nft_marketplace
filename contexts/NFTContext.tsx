@@ -1,9 +1,10 @@
 'use client';
 import axios from 'axios';
 
+import { useWeb3ModalAccount, useWeb3ModalProvider } from '@web3modal/ethers/react';
+import { BrowserProvider, Contract, formatUnits } from 'ethers';
 import React, { useEffect, useState } from 'react';
-
-// eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiaWQiOiJhOTUzYWI5OS01NzJjLTQzNGMtOTU2My01ZWVlYzFjYjJhZDUiLCJlbWFpbCI6Im9ndXpoYW56bnlAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsInBpbl9wb2xpY3kiOnsicmVnaW9ucyI6W3siaWQiOiJGUkExIiwiZGVzaXJlZFJlcGxpY2F0aW9uQ291bnQiOjF9LHsiaWQiOiJOWUMxIiwiZGVzaXJlZFJlcGxpY2F0aW9uQ291bnQiOjF9XSwidmVyc2lvbiI6MX0sIm1mYV9lbmFibGVkIjpmYWxzZSwic3RhdHVzIjoiQUNUSVZFIn0sImF1dGhlbnRpY2F0aW9uVHlwZSI6InNjb3BlZEtleSIsInNjb3BlZEtleUtleSI6IjBiYjc1YjgzMmFmOTFlNzZmN2E1Iiwic2NvcGVkS2V5U2VjcmV0IjoiM2JmMzc0ZGY4MjY4NjJlZDAyOWFkM2M0NzEyZDEzMTk3NGM3ZTM4MmUxMWIxMDQ1MWY1YjExMTk1ZTBjNDc2MCIsImlhdCI6MTcwMjA5NTg4Nn0.zJZPS0kI3__S6cdah_bNkilClEMXbe9rqnb09fd02B4
+import { MarketAbi, MarketAddress } from './constants';
 
 type NFTContextType = {
   nftCurrency: string;
@@ -11,12 +12,16 @@ type NFTContextType = {
   uploadToIPFS: (file: any) => void;
   connectWallet: () => void;
 };
+const fetchContract = (signerOrProvider: any) =>
+  new Contract(MarketAddress, MarketAbi, signerOrProvider);
 
 export const NFTContext = React.createContext<NFTContextType | null>(null);
 
 export const NFTProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const nftCurrency = 'ETH';
   const [currentAccount, setCurrentAccount] = useState('');
+  const { address, chainId, isConnected } = useWeb3ModalAccount();
+  const { walletProvider } = useWeb3ModalProvider();
 
   const checkIfWalletIsConnected = async () => {
     if (!(window as any).ethereum) {
@@ -34,6 +39,7 @@ export const NFTProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   useEffect(() => {
     checkIfWalletIsConnected();
+    createSale('test', '0.025');
   }, []);
 
   const connectWallet = async () => {
@@ -54,10 +60,10 @@ export const NFTProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         name: 'File name',
       });
       formData.append('pinataMetadata', metadata);
-      
+
       const options = JSON.stringify({
         cidVersion: 0,
-      })
+      });
       formData.append('pinataOptions', options);
       console.log(formData);
 
@@ -71,7 +77,7 @@ export const NFTProvider: React.FC<{ children: React.ReactNode }> = ({ children 
           'Content-Type': 'multipart/form-data',
         },
       });
-      console.log(response)
+      console.log(response);
       const ImgHash = `https://gateway.pinata.cloud/ipfs/${response.data.IpfsHash}`;
 
       return ImgHash;
@@ -79,7 +85,7 @@ export const NFTProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       console.log('Unable to upload file to Pinata: ' + err);
     }
   };
-  /*
+
   const createNFT = async (
     name: string,
     description: string,
@@ -102,17 +108,29 @@ export const NFTProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         data,
         headers: {
           pinata_api_key: '0bb75b832af91e76f7a5',
-          pinata_api_secret_key: '3bf374df826862ed029ad3c4712d131974c7e382e11b10451f5b11195e0c4760',
+          pinata_secret_api_key: '3bf374df826862ed029ad3c4712d131974c7e382e11b10451f5b11195e0c4760',
           'Content-Type': 'application/json',
         },
       });
+
       const url = `https://gateway.pinata.cloud/ipfs/${response.data.IpfsHash}`;
-      console.log(url);
+
+      await createSale(url, price);
     } catch (err) {
       console.log('Error while create NFT');
     }
   };
-*/
+
+  const createSale = async (url: string, formInputPrice: string, isResseling?: any, id?: any) => {
+    if (!isConnected) throw Error('User disconnected');
+
+    const ethersProvider = new BrowserProvider(walletProvider!);
+    const signer = await ethersProvider.getSigner();
+    const price = formatUnits(formInputPrice, 'ether');
+    const contract = await fetchContract(signer);
+
+    console.log(contract);
+  };
   return (
     <NFTContext.Provider
       value={{
