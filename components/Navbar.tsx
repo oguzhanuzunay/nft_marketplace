@@ -1,15 +1,15 @@
 /* eslint-disable tailwindcss/no-custom-classname */
 'use client';
-import { useTheme } from '@/contexts/ThemeProvider';
-
-import Link from 'next/link';
-
 import images from '@/assets';
 import { NFTContext } from '@/contexts/NFTContext';
+import { useTheme } from '@/contexts/ThemeProvider';
+import { useWeb3Modal } from '@web3modal/wagmi/react';
+import Image from 'next/image';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useContext, useState } from 'react';
+import { useAccount, useDisconnect } from 'wagmi';
 import { Button } from './';
-import Image from 'next/image';
 
 interface menuItemProps {
   isMobile?: boolean;
@@ -63,23 +63,40 @@ const MenuItems = ({ isMobile, active, setActive }: menuItemProps) => {
 };
 
 const ButtonGroup = ({ setActive, router }: ButtonGroupProps) => {
-  const { connectWallet, currentAccount } = useContext(NFTContext) as NFTContextType;
+  const { currentAccount } = useContext(NFTContext) as NFTContextType;
+  const { address } = useAccount();
+  const { disconnect } = useDisconnect()
+
+  const { open } = useWeb3Modal();
 
   return currentAccount ? (
-    <Button
-      btnName="Create"
-      classStyles="mx-2 rounded-xl"
-      handleClick={() => {
-        setActive('');
+    <>
+      <Button
+        btnName="Create"
+        classStyles="mx-2 rounded-xl"
+        handleClick={() => {
+          setActive('');
 
-        router.push('/create-nft');
-      }}
-    />
+          router.push('/create-nft');
+        }}
+      />
+      {address && (
+        <Button
+          btnName="P"
+          classStyles="mx-2 !px-3.5 rounded-full"
+          handleClick={() => {
+            disconnect();
+          }}
+        />
+      )}
+    </>
   ) : (
     <Button
       btnName="Connect"
       classStyles="mx-2 rounded-xl"
-      handleClick={connectWallet}
+      handleClick={() => {
+        open();
+      }}
     />
   );
 };

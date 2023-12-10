@@ -1,5 +1,6 @@
 import { HardhatUserConfig } from 'hardhat/config';
 import '@nomicfoundation/hardhat-toolbox';
+
 const fs = require('fs');
 
 const privateKey = fs.readFileSync('.secret').toString().trim() || '01234567890123456789';
